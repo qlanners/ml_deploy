@@ -86,7 +86,7 @@ def model_fn(model_dir):
     return model
 
 """
-model_fn
+input_fn
     request_body: the body of the request sent to the model. The type can vary.
     request_content_type: (string) specifies the format/variable type of the request
 
