@@ -100,7 +100,6 @@ handle various request_content_types. Howver, in this simple case, we are
 only going to accept text/csv and raise an error for all other formats.
 """
 def input_fn(request_body, request_content_type):
-    """An input_fn that loads a pickled numpy array"""
     if content_type == 'text/csv':
         samples = []
         for r in request_body.split('|'):
