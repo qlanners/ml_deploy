@@ -32,7 +32,7 @@ INDEX_TO_LABEL = {
 """
 __main__
 
-In order for AWS to train the model when you call the API, you 
+In order for AWS to train the model when you call the API, you
 put the data pre-processing and training in the __main__ block.
 
 Note: You can create seperate jobs to pre-process and train the data. This model's
@@ -40,7 +40,7 @@ preprocessing is simple enough to contain in the training script for simplicity
 sake.
 """
 if __name__ =='__main__':
-    # Create a parser object to collect the environment variables that are in the 
+    # Create a parser object to collect the environment variables that are in the
     # default AWS Scikit-learn Docker container.
     parser = argparse.ArgumentParser()
 
@@ -76,8 +76,8 @@ if __name__ =='__main__':
 model_fn
     model_dir: (sting) specifies location of saved model
 
-This function is used by AWS Sagemaker to load the model for deployment. 
-It does this by simply loading the model that was saved at the end of the 
+This function is used by AWS Sagemaker to load the model for deployment.
+It does this by simply loading the model that was saved at the end of the
 __main__ training block above and returning it to be used by the predict_fn
 function below.
 """
@@ -90,17 +90,17 @@ input_fn
     request_body: the body of the request sent to the model. The type can vary.
     request_content_type: (string) specifies the format/variable type of the request
 
-This function is used by AWS Sagemaker to format a request body that is sent to 
+This function is used by AWS Sagemaker to format a request body that is sent to
 the deployed model.
 In order to do this, we must transform the request body into a numpy array and
 return that array to be used by the predict_fn function below.
 
 Note: Oftentimes, you will have multiple cases in order to
-handle various request_content_types. Howver, in this simple case, we are 
+handle various request_content_types. Howver, in this simple case, we are
 only going to accept text/csv and raise an error for all other formats.
 """
 def input_fn(request_body, request_content_type):
-    if content_type == 'text/csv':
+    if request_content_type == 'text/csv':
         samples = []
         for r in request_body.split('|'):
             samples.append(list(map(float,r.split(','))))
@@ -110,7 +110,7 @@ def input_fn(request_body, request_content_type):
 
 """
 predict_fn
-    input_data: (numpy array) returned array from input_fn above 
+    input_data: (numpy array) returned array from input_fn above
     model (sklearn model) returned model loaded from model_fn above
 
 This function is used by AWS Sagemaker to make the prediction on the data
