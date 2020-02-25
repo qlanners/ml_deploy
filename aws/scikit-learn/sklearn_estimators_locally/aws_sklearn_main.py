@@ -11,8 +11,6 @@ import os
 import pandas as pd
 from sklearn.externals import joblib
 from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
 
 
 # Dictionary to convert labels to indices
@@ -61,12 +59,8 @@ if __name__ =='__main__':
     # Convert labels from text to indices
     train_Y_enc = train_Y['label'].map(LABEL_TO_INDEX)
 
-    # Create training pipeline. In this simple example, we just scale the input features and
-    # then perform logistic regression.
-    pipe = Pipeline([('scale', StandardScaler()), ('log_regression', LogisticRegression())])
-
-    #Train the model using the fit method
-    model = pipe.fit(train_X, train_Y_enc)
+    #Train the logistic regression model using the fit method
+    model = LogisticRegression().fit(train_X, train_Y_enc)
 
     #Save the model to the location specified by args.model_dir
     joblib.dump(model, os.path.join(args.model_dir, "model.joblib"))
